@@ -1,16 +1,9 @@
-# flutter_application_1
+# Reader
 
-A new Flutter project.
+Разрабатываемое приложение является мобильным приложением для чтения электронных книг с механиками геймификации, призванными поощрять чтение.
 
-## Getting Started
+Макеты окон приложения представлены на скриншотах ниже:
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![1](https://user-images.githubusercontent.com/69364068/195129149-bc3f9776-b399-425e-bb87-87c80edc5dbc.png)
+![2](https://user-images.githubusercontent.com/69364068/195129168-7264db07-0403-4187-b31a-ee43a842e87b.png)
+![3](https://user-images.githubusercontent.com/69364068/195129175-420e90b4-b0ef-46a9-acdd-5a2436dcf909.png)
