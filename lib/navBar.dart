@@ -1,6 +1,6 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/bookList.dart';
+import 'bookWidget.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -49,9 +49,16 @@ class _NavBar extends State<NavBar> {
             Expanded(
               flex: 9125,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.max,
-                children: [Text("Центр")],
+                //mainAxisAlignment: MainAxisAlignment.center,
+                //mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Container(
+                    //height: ,
+                    padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
+                    width: MediaQuery.of(context).size.width,
+                    child: BookList(),
+                  ),
+                ],
               ),
             ),
             Expanded(
