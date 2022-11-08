@@ -4,6 +4,7 @@ import 'package:flutter_application_1/bookList.dart';
 import 'package:flutter_application_1/settings/settings.dart';
 import 'package:flutter_application_1/settings/settingsJson.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
@@ -43,6 +44,20 @@ class _NavBar extends State<NavBar> {
       default:
         return Text("Что-то пошло не так");
     }
+  }
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      var status = await Permission.manageExternalStorage.status;
+      if (status.isDenied) {
+        await Permission.manageExternalStorage.request();
+      }
+      if (await Permission.manageExternalStorage.isRestricted) {
+        print("Нет разрешения");
+      }
+    });
+    super.initState();
   }
 
   @override
