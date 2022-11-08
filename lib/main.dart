@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'navBar.dart';
-import 'bookList.dart';
-import 'bookWidget.dart';
 
 void main() {
   runApp(const MyApp());

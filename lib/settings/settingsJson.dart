@@ -32,13 +32,22 @@ class SettingsJson {
     } else {
       final file = await _localFile;
       final contents = await file.readAsString();
-
-      Map<String, dynamic> jsonMap = jsonDecode(contents);
-      SettingsJson json = SettingsJson.fromJson(jsonMap);
-      font = json.font;
-      fontSize = json.fontSize;
-      isChecked = json.isChecked;
-      sortingPrinciple = json.sortingPrinciple;
+      if (contents != "") {
+        Map<String, dynamic> jsonMap = jsonDecode(contents);
+        SettingsJson json = SettingsJson.fromJson(jsonMap);
+        font = json.font;
+        fontSize = json.fontSize;
+        isChecked = json.isChecked;
+        sortingPrinciple = json.sortingPrinciple;
+      } else {
+        final String response =
+            await rootBundle.loadString('assets/settings.json');
+        final data = await json.decode(response);
+        isChecked = data["isChecked"];
+        font = data["font"];
+        fontSize = data["fontSize"];
+        sortingPrinciple = data["sortingPrinciple"];
+      }
     }
   }
 
