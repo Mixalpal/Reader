@@ -4,6 +4,8 @@ import 'bookWidget.dart';
 class BookList extends StatefulWidget {
   const BookList({super.key});
 
+  final String _bookPath = "";
+
   @override
   State<BookList> createState() => _BookList();
 }

@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/bookList.dart';
-import 'bookWidget.dart';
+import 'package:flutter_application_1/settings/settings.dart';
+import 'package:flutter_application_1/settings/settingsJson.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'dart:io';
+import 'dart:convert';
+import 'dart:async';
+import 'package:path_provider/path_provider.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -11,27 +18,31 @@ class NavBar extends StatefulWidget {
 
 class _NavBar extends State<NavBar> {
   int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Здесь будут книги',
-      style: optionStyle,
-    ),
-    Text(
-      'Здесь будет избранное',
-      style: optionStyle,
-    ),
-    Text(
-      'Здесь будут настройки',
-      style: optionStyle,
-    ),
-  ];
+  String _sortingPrinciple = '';
+
+  static const TextStyle optionStyle = TextStyle(
+    fontFamily: 'OpenSans',
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+  );
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  Widget getBody() {
+    switch (_selectedIndex) {
+      case 0:
+        return BookList();
+      case 1:
+        return BookList();
+      case 2:
+        return Settings();
+      default:
+        return Text("Что-то пошло не так");
+    }
   }
 
   @override
@@ -49,14 +60,11 @@ class _NavBar extends State<NavBar> {
             Expanded(
               flex: 9125,
               child: Row(
-                //mainAxisAlignment: MainAxisAlignment.center,
-                //mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Container(
-                    //height: ,
                     padding: const EdgeInsets.fromLTRB(9, 0, 9, 0),
                     width: MediaQuery.of(context).size.width,
-                    child: BookList(),
+                    child: getBody(),
                   ),
                 ],
               ),
@@ -68,7 +76,6 @@ class _NavBar extends State<NavBar> {
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   Container(
-                    //width: MediaQuery.of(context).size.width / 3,
                     color: (_selectedIndex == 0)
                         ? const Color.fromRGBO(255, 185, 78, 1)
                         : const Color.fromRGBO(236, 143, 0, 1),
@@ -85,6 +92,7 @@ class _NavBar extends State<NavBar> {
                             Text(
                               "Книги",
                               textAlign: TextAlign.center,
+                              style: optionStyle,
                             ),
                           ],
                         ),
@@ -106,6 +114,7 @@ class _NavBar extends State<NavBar> {
                             Text(
                               "Избранное",
                               textAlign: TextAlign.center,
+                              style: optionStyle,
                             ),
                           ],
                           mainAxisSize: MainAxisSize.max,
@@ -131,6 +140,7 @@ class _NavBar extends State<NavBar> {
                             Text(
                               "Настройки",
                               textAlign: TextAlign.center,
+                              style: optionStyle,
                             ),
                           ],
                           mainAxisSize: MainAxisSize.max,

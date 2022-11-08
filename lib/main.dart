@@ -15,8 +15,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          //primaryColor: const Color.fromRGBO(255, 185, 78, 1),
-          ),
+        primaryColor: const Color.fromRGBO(255, 185, 78, 1),
+        unselectedWidgetColor: Color.fromRGBO(204, 204, 204, 1),
+      ),
       home: const NavBar(),
     );
   }
