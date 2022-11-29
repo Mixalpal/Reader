@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'bookWidget.dart';
+import 'package:flutter_application_1/books/bookListJson.dart';
+import 'package:flutter_application_1/books/book.dart';
 
 class BookList extends StatefulWidget {
-  const BookList({super.key});
+  final List<Book> bookList;
+  const BookList({super.key, required this.bookList});
 
   @override
   State<BookList> createState() => _BookList();
@@ -11,15 +14,11 @@ class BookList extends StatefulWidget {
 class _BookList extends State<BookList> {
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      scrollDirection: Axis.vertical,
-      children: <BookWidget>[
-        BookWidget(),
-        BookWidget(),
-        BookWidget(),
-        BookWidget(),
-        BookWidget(),
-      ],
-    );
+    return Stack(children: [
+      ListView(
+        scrollDirection: Axis.vertical,
+        children: [for (var book in widget.bookList) BookWidget(book: book)],
+      ),
+    ]);
   }
 }

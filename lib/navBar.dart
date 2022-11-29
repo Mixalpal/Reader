@@ -5,10 +5,11 @@ import 'package:flutter_application_1/settings/settings.dart';
 import 'package:flutter_application_1/settings/settingsJson.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'dart:io';
-import 'dart:convert';
 import 'dart:async';
 import 'package:path_provider/path_provider.dart';
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter_application_1/books/bookListJson.dart';
+import 'package:flutter_application_1/books/book.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});
@@ -19,7 +20,10 @@ class NavBar extends StatefulWidget {
 
 class _NavBar extends State<NavBar> {
   int _selectedIndex = 0;
-  String _sortingPrinciple = '';
+  final BookListJson _bookListJson = BookListJson(bookList: []);
+  List<Book> _bookList = [];
+
+  static const imgSrc = "https://picsum.photos/250?image=9";
 
   static const TextStyle optionStyle = TextStyle(
     fontFamily: 'OpenSans',
@@ -36,9 +40,38 @@ class _NavBar extends State<NavBar> {
   Widget getBody() {
     switch (_selectedIndex) {
       case 0:
-        return BookList();
+        return Stack(children: [
+          BookList(bookList: _bookListJson.getBookList()),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton(
+                onPressed: () async {
+                  final result = await FilePicker.platform.pickFiles();
+                  if (result == null) return;
+                  final file = result.files.first;
+                  Book newBook = Book(
+                      name: file.name,
+                      author: "автор книги",
+                      coverSrc: imgSrc,
+                      path: file.path);
+                  setState(() {
+                    _bookListJson.addBook(newBook);
+                    _bookListJson.writeJson();
+                    _bookList = _bookListJson.getBookList();
+                  });
+                },
+                backgroundColor: const Color.fromRGBO(236, 143, 0, 1),
+                child: Icon(Icons.add, size: 30),
+              ),
+            ),
+          )
+        ]);
       case 1:
-        return BookList();
+        return BookList(
+          bookList: _bookListJson.getBookList(),
+        );
       case 2:
         return Settings();
       default:
@@ -48,15 +81,18 @@ class _NavBar extends State<NavBar> {
 
   @override
   void initState() {
+    // Future.delayed(Duration.zero, () async {
+    //   Permission.manageExternalStorage.request();
+    //   var status = await Permission.manageExternalStorage.status;
+    //   if (status.isDenied) {
+    //     await Permission.manageExternalStorage.request();
+    //   }
+    //   if (await Permission.manageExternalStorage.isRestricted) {}
+    // });
     Future.delayed(Duration.zero, () async {
-      var status = await Permission.manageExternalStorage.status;
-      if (status.isDenied) {
-        await Permission.manageExternalStorage.request();
-      }
-      if (await Permission.manageExternalStorage.isRestricted) {
-        print("Нет разрешения");
-      }
+      _bookList = _bookListJson.getBookList();
     });
+    setState(() {});
     super.initState();
   }
 

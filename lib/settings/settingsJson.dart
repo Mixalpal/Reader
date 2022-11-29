@@ -13,7 +13,6 @@ class SettingsJson {
   late String sortingPrinciple;
   late bool isChecked;
 
-  //SettingsJson(this.font, this.fontSize, this.sortingPrinciple, this.isChecked);
   SettingsJson(
       this.font, this.fontSize, this.sortingPrinciple, this.isChecked) {
     create();
@@ -70,7 +69,4 @@ class SettingsJson {
 
     return file.writeAsString(jsonEncode(this));
   }
-
-  // factory SettingsJson.fromJson(dynamic json) {
-  // return SettingsJson(json['font'] as String, json['fontSize'] as int, json['sortingPrinciple'] as String, json['isChecked'] as bool);
 }

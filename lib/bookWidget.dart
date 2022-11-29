@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/books/book.dart';
 
 class BookWidget extends StatefulWidget {
-  const BookWidget({super.key});
+  final Book book;
+  const BookWidget({super.key, required this.book});
 
   @override
   State<BookWidget> createState() => _BookWidget();
@@ -59,7 +61,7 @@ class _BookWidget extends State<BookWidget> {
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "Название",
+                            widget.book.name,
                             textAlign: TextAlign.left,
                             style: mainTextStyle,
                           ),
@@ -69,7 +71,7 @@ class _BookWidget extends State<BookWidget> {
                         child: Align(
                           alignment: Alignment.topLeft,
                           child: Text(
-                            "Автор",
+                            widget.book.author,
                             textAlign: TextAlign.left,
                             style: secondaryTextStyle,
                           ),
