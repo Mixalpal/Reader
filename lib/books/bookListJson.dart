@@ -36,6 +36,7 @@ class BookListJson {
         BookListJson json = BookListJson.fromJson(jsonMap);
         bookList = json.bookList;
       }
+      //print("Я ЗАШЕЛ");
     }
   }
 

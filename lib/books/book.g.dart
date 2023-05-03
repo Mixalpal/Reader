@@ -10,7 +10,7 @@ Book _$BookFromJson(Map<String, dynamic> json) => Book(
       name: json['name'] as String,
       author: json['author'] as String,
       coverSrc: json['coverSrc'] as String,
-      path: json['path'] as String?,
+      path: json['path'] as String,
     )
       ..progress = (json['progress'] as num).toDouble()
       ..isFavourite = json['isFavourite'] as bool;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/books/book.dart';
+import 'package:flutter_application_1/reader/reader_page.dart';
 
 class BookWidget extends StatefulWidget {
   final Book book;
@@ -10,7 +11,11 @@ class BookWidget extends StatefulWidget {
 }
 
 class _BookWidget extends State<BookWidget> {
-  void onStarPressed() {}
+  void onStarPressed() {
+    setState(() {
+      widget.book.isFavourite = !widget.book.isFavourite;
+    });
+  }
 
   final TextStyle mainTextStyle = TextStyle(
     fontFamily: 'OpenSans',
@@ -36,58 +41,79 @@ class _BookWidget extends State<BookWidget> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Stack(children: [
-          Row(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Expanded(
-                flex: 115,
-                child: Container(
-                  alignment: Alignment.center,
-                  margin: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(3),
-                    color: Color.fromRGBO(50, 50, 50, 1),
-                  ),
-                ), //Обложка
-              ),
-              Expanded(
-                flex: 227,
-                child: Column(
-                  children: <Widget>[
-                    Expanded(
-                        flex: 10,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            widget.book.name,
-                            textAlign: TextAlign.left,
-                            style: mainTextStyle,
-                          ),
-                        )),
-                    Expanded(
-                        flex: 40,
-                        child: Align(
-                          alignment: Alignment.topLeft,
-                          child: Text(
-                            widget.book.author,
-                            textAlign: TextAlign.left,
-                            style: secondaryTextStyle,
-                          ),
-                        )),
-                    Expanded(
-                      flex: 10,
-                      child: Text("ProgressBarздесьбудет"),
+          GestureDetector(
+            onTap: () => {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //       builder: (context) => ReadingWindow(
+              //             book: widget.book,
+              //           )),
+              // )
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Expanded(
+                  flex: 115,
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(3),
+                      color: Color.fromRGBO(50, 50, 50, 1),
                     ),
-                  ],
+                  ), //Обложка
                 ),
-              ),
-            ],
+                Expanded(
+                  flex: 227,
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                          flex: 10,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              widget.book.name,
+                              textAlign: TextAlign.left,
+                              style: mainTextStyle,
+                            ),
+                          )),
+                      Expanded(
+                          flex: 40,
+                          child: Align(
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              widget.book.author,
+                              textAlign: TextAlign.left,
+                              style: secondaryTextStyle,
+                            ),
+                          )),
+                      Expanded(
+                        flex: 4,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(5, 0, 5, 5),
+                          child: LinearProgressIndicator(
+                            backgroundColor: Color.fromRGBO(217, 217, 217, 1),
+                            color: Color.fromRGBO(10, 207, 131, 1),
+                            value: widget.book.progress,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           Align(
               alignment: Alignment.topRight,
               child: IconButton(
+                color: widget.book.isFavourite
+                    ? Color.fromRGBO(236, 143, 0, 1)
+                    : Color.fromRGBO(217, 217, 217, 1),
                 onPressed: onStarPressed,
                 icon: Icon(Icons.star),
               ))

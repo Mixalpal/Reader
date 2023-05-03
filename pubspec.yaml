@@ -18,6 +18,14 @@ dependencies:
   permission_handler: ^10.2.0
 
   file_picker: ^5.2.2
+  fb2_parse: ^1.0.1
+  webview_flutter: ^4.0.1
+  flutter_bloc: ^8.1.1
+  cloud_firestore: ^4.3.1
+  firebase_core: ^2.4.1
+  equatable: ^2.0.5
+  firebase_auth: ^4.2.9
+  routemaster: ^1.0.1
   #google_fonts: ^3.0.1
 
 dev_dependencies:
@@ -26,6 +34,7 @@ dev_dependencies:
   build_runner: ^2.0.0
   json_serializable: ^6.0.0
   flutter_lints: ^2.0.0
+  
 
 fonts:
     - family: Open Sans

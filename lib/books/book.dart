@@ -12,7 +12,7 @@ class Book {
   late String author;
   late double progress;
   late String coverSrc;
-  late String? path;
+  late String path;
   late bool isFavourite;
 
   Book(

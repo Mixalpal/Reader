@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "887081821853",
+    "project_id": "dreamreader-aa940",
+    "storage_bucket": "dreamreader-aa940.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:887081821853:android:e4813a60ce68bc6e509674",
+        "android_client_info": {
+          "package_name": "com.example.flutter_application_1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "887081821853-ur7ahgdloq640fcifp0fgai898j40btl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArM9WfQzYh-JazQnZUDzehZukKiukcUNw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "887081821853-ur7ahgdloq640fcifp0fgai898j40btl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
