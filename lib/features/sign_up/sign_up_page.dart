@@ -1,35 +1,35 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/features/sign_in/cubit/sign_in_cubit.dart';
+import 'package:flutter_application_1/features/sign_up/cubit/sign_up_cubit.dart';
 import 'package:flutter_application_1/repository/accountRepos.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'dart:developer';
 
 import 'package:go_router/go_router.dart';
 
-class SignInPage extends StatelessWidget {
-  const SignInPage({Key? key}) : super(key: key);
-  static Page page() => const MaterialPage<void>(child: SignInPage());
+class SignUpPage extends StatelessWidget {
+  const SignUpPage({Key? key}) : super(key: key);
+  static Page page() => const MaterialPage<void>(child: SignUpPage());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: BlocProvider(
-      create: (_) => SignInCubit(
+      create: (_) => SignUpCubit(
         accountRepository: RepositoryProvider.of<AccountRepository>(context),
-      )..checkAuthentication(),
-      child: const SignInForm(),
+      ),
+      child: const SignUpForm(),
     ));
   }
 }
 
 @visibleForTesting
-class SignInForm extends StatelessWidget {
-  const SignInForm({Key? key}) : super(key: key);
+class SignUpForm extends StatelessWidget {
+  const SignUpForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<SignInCubit, SignInState>(
+    return BlocConsumer<SignUpCubit, SignUpState>(
         listenWhen: (oldState, newState) =>
             oldState.submissionStatus != newState.submissionStatus,
         listener: (context, state) => {
@@ -51,7 +51,7 @@ class SignInForm extends StatelessWidget {
                             )
                           : SnackBar(
                               content: Text(
-                                'Произошла ошибка. Проверьте подключение к интернету',
+                                'Аккаунт с этим адресом электронной почты уже существует',
                               ),
                             ),
                     )
@@ -59,10 +59,9 @@ class SignInForm extends StatelessWidget {
             },
         builder: (context, state) {
           //
-          final emailError = state.emailValidated ? true : false;
           final isSubmissionInProgress =
               state.submissionStatus == SubmissionStatus.inProgress;
-          final cubit = context.read<SignInCubit>();
+          final cubit = context.read<SignUpCubit>();
           return Align(
             alignment: Alignment.center,
             child: Container(
@@ -84,7 +83,7 @@ class SignInForm extends StatelessWidget {
                         child: Align(
                           alignment: Alignment.bottomCenter,
                           child: Text(
-                            'Авторизация',
+                            'Регистрация',
                             textAlign: TextAlign.center,
                             style: mainTextStyle,
                           ),
@@ -97,15 +96,15 @@ class SignInForm extends StatelessWidget {
                               text: TextSpan(
                             children: <TextSpan>[
                               TextSpan(
-                                text: 'Нет аккаунта? ',
+                                text: 'Уже есть аккаунт? ',
                                 style: secondaryTextStyle,
                               ),
                               TextSpan(
-                                  text: 'Создать',
+                                  text: 'Войти',
                                   style: linkTextStyle,
                                   recognizer: TapGestureRecognizer()
                                     ..onTap = () {
-                                      context.go('/registration');
+                                      context.go('/');
                                     })
                             ],
                           )),
@@ -118,18 +117,36 @@ class SignInForm extends StatelessWidget {
                           padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
                           child: TextField(
                             onChanged: (String value) =>
-                                cubit.onEmailChanged(value),
+                                cubit.onUsernameChanged(value),
                             textInputAction: TextInputAction.next,
                             autocorrect: false,
+                            decoration: InputDecoration(
+                              suffixIcon: const Icon(
+                                Icons.login,
+                              ),
+                              enabled: !isSubmissionInProgress,
+                              labelText: 'Логин',
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 56,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Padding(
+                          padding: const EdgeInsets.fromLTRB(30, 0, 30, 0),
+                          child: TextField(
+                            onChanged: (String value) =>
+                                cubit.onEmailChanged(value),
+                            obscureText: false,
                             decoration: InputDecoration(
                               suffixIcon: const Icon(
                                 Icons.alternate_email,
                               ),
                               enabled: !isSubmissionInProgress,
                               labelText: 'Эл. почта',
-                              errorText: emailError == false
-                                  ? null
-                                  : ('Неверно введен адрес электронной почты'),
                             ),
                           ),
                         ),
@@ -157,7 +174,7 @@ class SignInForm extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      flex: 124,
+                      flex: 68,
                       child: Align(
                           alignment: Alignment.bottomCenter,
                           child: TextButton(
@@ -166,12 +183,16 @@ class SignInForm extends StatelessWidget {
                                     const Color.fromRGBO(236, 143, 0, 1),
                               ),
                               onPressed: () => {cubit.onSubmit()},
-                              child: Text(
-                                'Войти',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ))),
+                              child: isSubmissionInProgress
+                                  ? CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                  : Text(
+                                      'Войти',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      ),
+                                    ))),
                     ),
                     Expanded(flex: 10, child: Container()),
                   ],

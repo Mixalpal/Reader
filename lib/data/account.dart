@@ -6,6 +6,7 @@ import 'package:equatable/equatable.dart';
 
 class Account extends Equatable {
   final List<String> booksIdList;
+  final List<String> storeBooksIdList;
   final String imgLink;
   final String role;
   final int xp;
@@ -16,6 +17,7 @@ class Account extends Equatable {
 
   const Account({
     required this.booksIdList,
+    required this.storeBooksIdList,
     required this.imgLink,
     required this.role,
     required this.xp,
@@ -27,6 +29,7 @@ class Account extends Equatable {
 
   Account copyWith({
     List<String>? booksIdList,
+    List<String>? storeBooksIdList,
     String? imgLink,
     String? role,
     int? xp,
@@ -37,6 +40,7 @@ class Account extends Equatable {
   }) {
     return Account(
       booksIdList: booksIdList ?? this.booksIdList,
+      storeBooksIdList: storeBooksIdList ?? this.storeBooksIdList,
       imgLink: imgLink ?? this.imgLink,
       role: role ?? this.role,
       xp: xp ?? this.xp,
@@ -50,6 +54,7 @@ class Account extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'booksIdList': booksIdList,
+      'storeBooksIdList': storeBooksIdList,
       'imgLink': imgLink,
       'role': role,
       'xp': xp,
@@ -61,8 +66,10 @@ class Account extends Equatable {
   }
 
   factory Account.fromMap(Map<String, dynamic> map) {
+    print(map);
     return Account(
       booksIdList: List<String>.from(map['booksIdList']),
+      storeBooksIdList: List<String>.from(map['storeBooksIdList']),
       imgLink: map['imgLink'] as String,
       role: map['role'] as String,
       xp: map['xp'] as int,
@@ -78,21 +85,22 @@ class Account extends Equatable {
   factory Account.fromJson(String source) =>
       Account.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  // factory Account.fromFirestore(
-  //   DocumentSnapshot<Map<String, dynamic>> snapshot,
-  // ) {
-  //   final data = snapshot.data();
-  //   return Account(
-  //     booksIdList: List.from(data?['booksIdList']),
-  //     imgLink: data?['imgLink'],
-  //     role: data?['role'],
-  //     xp: data?['xp'],
-  //     reviewsIdList: List.from(data?['reviewsIdList']),
-  //     achievementsIdList: List.from(data?['achievementsIdList']),
-  //     userId: data?['userId'],
-  //     username: data?['username'],
-  //   );
-  // }
+  factory Account.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+  ) {
+    final data = snapshot.data();
+    return Account(
+      booksIdList: List.from(data?['booksIdList']),
+      storeBooksIdList: List.from(data?['storeBooksIdList']),
+      imgLink: data?['imgLink'],
+      role: data?['role'],
+      xp: data?['xp'],
+      reviewsIdList: List.from(data?['reviewsIdList']),
+      achievementsIdList: List.from(data?['achievementsIdList']),
+      userId: data?['userId'],
+      username: data?['username'],
+    );
+  }
 
   @override
   bool get stringify => true;

@@ -12,7 +12,7 @@ class SignInCubit extends Cubit<SignInState> {
   void onEmailChanged(String newEmail) {
     final newScreenState = state.copyWith(
       email: newEmail,
-      emailValidated: _validateEmail(newEmail),
+      emailValidated: false,
     );
     emit(newScreenState);
   }
@@ -24,21 +24,49 @@ class SignInCubit extends Cubit<SignInState> {
     emit(newScreenState);
   }
 
-  void onSubmit() {
-    if (state.emailValidated) {
-      accountRepository.authenticate(state.email, state.password);
-      //move to shoppage/library on success
+  void onSubmit() async {
+    if (state.emailValidated == false) {
+      var newState = state.copyWith(
+        submissionStatus: SubmissionStatus.inProgress,
+      );
+      emit(newState);
+      if (await accountRepository.authenticate(state.email, state.password) ==
+          0) {
+        newState = state.copyWith(
+          submissionStatus: SubmissionStatus.success,
+        );
+        emit(newState);
+      } else {
+        newState = state.copyWith(
+          submissionStatus: SubmissionStatus.genericError,
+        );
+        emit(newState);
+      }
     }
   }
 
-  bool _validateEmail(String email) {
-    return _emailRegex.hasMatch(email) ? true : false;
+  void checkAuthentication() {
+    if (accountRepository.currentAccount == null) {
+      return;
+    }
+    print('Current Account: ${accountRepository.currentAccount}');
+    final newScreenState = state.copyWith(
+      submissionStatus: SubmissionStatus.success,
+    );
+    emit(newScreenState);
   }
 
-  static final _emailRegex = RegExp(
-    '^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@((([0-1]?'
-    '[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.'
-    '([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])'
-    ')|([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})\$',
-  );
+  // bool _validateEmail(String email) {
+  //   return _emailRegex.hasMatch(email) ? true : false;
+  // }
+
+  // static final _emailRegex = RegExp(
+  //     r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+");
+
+  // static final _emailRegex = RegExp(
+  //   '^(([\\w-]+\\.)+[\\w-]+|([a-zA-Z]|[\\w-]{2,}))@((([0-1]?'
+  //   '[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.'
+  //   '([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])\\.([0-1]?[0-9]{1,2}|25[0-5]|2[0-4][0-9])'
+  //   ')|([a-zA-Z]+[\\w-]+\\.)+[a-zA-Z]{2,4})\$',
+  // );
 }

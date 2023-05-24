@@ -1,38 +1,42 @@
-part of 'sign_in_cubit.dart';
+part of 'sign_up_cubit.dart';
 
-class SignInState extends Equatable {
-  const SignInState({
-    // TODO: убрать данные
+class SignUpState extends Equatable {
+  const SignUpState({
     this.email = "",
-    this.emailValidated = false,
     this.password = "",
+    this.username = "",
     this.submissionStatus = SubmissionStatus.idle,
   });
 
   final String email;
-  final bool emailValidated;
   final String password;
+  final String username;
   final SubmissionStatus submissionStatus;
 
-  SignInState copyWith({
+  SignUpState copyWith({
     String? email,
+    String? username,
     String? password,
-    bool? emailValidated,
     SubmissionStatus? submissionStatus,
   }) {
-    return SignInState(
+    return SignUpState(
       email: email ?? this.email,
       password: password ?? this.password,
-      emailValidated: emailValidated ?? this.emailValidated,
+      username: username ?? this.username,
       submissionStatus: submissionStatus ?? this.submissionStatus,
     );
   }
 
   @override
-  List<Object> get props => [email, emailValidated, password, submissionStatus];
+  List<Object> get props => [
+        email,
+        password,
+        username,
+        submissionStatus,
+      ];
 }
 
-class SignInInitial extends SignInState {}
+class SignUpInitial extends SignUpState {}
 
 enum SubmissionStatus {
   idle,
